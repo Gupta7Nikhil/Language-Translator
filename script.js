@@ -1,24 +1,11 @@
-const rotateOn = document.querySelector(".rotate");
-let data;
+const rotateOn = document.querySelector(".rotate"); //
 const dest = document.querySelector(".destination");
-let ans;
-const board = document.querySelector(".sourceBoard");
-const langS=document.querySelector(".langTextS");
-const langR=document.querySelector(".langTextR");
-const sourceButton=document.querySelector(".sourcebutton");
-let flag;
+const inputBoard = document.querySelector("#inputBoard");
+const outputBoard = document.querySelector("#outputBoard");
 
-const convertButton=document.querySelector(".resultBtn");
 
-sourceButton.addEventListener("click", myFun);
-convertButton.addEventListener("click",myFun1);
 const encodedParams = new URLSearchParams();
-function myFun1(){
-	flag=2;
-}
-function myFun(){
-flag=1;
-}
+
 let mapping = {
   1: "af",
   2: "sq",
@@ -133,6 +120,18 @@ let mapping = {
 };
 let sourceLang=mapping[22];
 let resultLang=mapping[38];
+inputBoard.addEventListener('change',function(){
+  let inputmap = this.value;
+  inputmap = inputmap.split(' ')[1];
+  sourceLang = inputmap;
+  console.log("Source lang changed",sourceLang);
+})
+outputBoard.addEventListener('change',function(){
+  let outputmap = this.value;
+  outputmap = outputmap.split(' ')[1];
+  resultLang = outputmap;
+  console.log("Result lang changed",resultLang);
+})
 console.log(sourceLang,resultLang)
 const options = {
   method: "POST",
@@ -144,34 +143,8 @@ const options = {
   body: encodedParams,
 };
 
-function sourceBtn() {
-  board.classList.remove("show");
-  board.classList.add("hide");
-  setTimeout(() => {
-    board.classList.remove("hide");
-    board.classList.add("show");
-  }, "300");
-}
-
-function assign(num){
-	board.classList.remove("show");
-	board.classList.add("hide");
-	let divContainer=board.children[num-1];
-	let lang=divContainer.children[0];
-	console.log(divContainer,lang,lang.textContent,mapping[num]);
-	if(flag==1)
-	{
-		langS.textContent=lang.textContent;
-		sourceLang=mapping[num];
-	}
-	else{
-		langR.textContent=lang.textContent;
-		resultLang=mapping[num];
-	}
-}
-
 async function convertLang() {
-  data = document.querySelector(".input");
+  const data = document.querySelector(".input");
   rotateOn.classList.add("apnaTime");
 
   console.log(sourceLang,resultLang)
